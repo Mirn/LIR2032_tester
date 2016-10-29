@@ -1,0 +1,42 @@
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.d
+*.obj
+*.dcu
+*.dsk
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Executables
+*.elf
+*.lst
+*.map
+
+*.~*
+
+# Thumbnails
+._*
+
+
+# Windows
+# =========================
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Windows shortcuts
+*.lnk
+
+
+*.bak
