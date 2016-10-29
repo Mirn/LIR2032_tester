@@ -1,0 +1,15 @@
+ADC_SampleTime_1Cycles5   Vref int	   2834	mV
+ADC_SampleTime_7Cycles5   Vref int	   3277	mV
+ADC_SampleTime_13Cycles5  Vref int	   3274	mV
+ADC_SampleTime_28Cycles5  Vref int	   3274	mV
+ADC_SampleTime_41Cycles5  Vref int	   3274	mV
+ADC_SampleTime_55Cycles5  Vref int	   3274	mV
+ADC_SampleTime_71Cycles5  Vref int	   3274	mV
+ADC_SampleTime_239Cycles5 Vref int	   3274	mV
+
+ADC_SampleTime_13Cycles5 0x0080 Vref int	   3274	mV
+ADC_SampleTime_13Cycles5 0x0100 Vref int	   3274	mV
+ADC_SampleTime_13Cycles5 0x0400 Vref int	   3274	mV
+ADC_SampleTime_13Cycles5 0x1000 Vref int	   3274	mV
+ADC_SampleTime_13Cycles5 0x4000 Vref int	   3274	mV
+ADC_SampleTime_13Cycles5 0x8000 Vref int	   3274	mV

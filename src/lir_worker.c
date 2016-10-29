@@ -87,6 +87,10 @@ tLIR_Mode lir_worker_run(tLIR_worker * const worker, const uint16_t mV, const bo
 		if (wait_result != WAIT_CONTINUE)
 			worker->time_current = 0;
 
+		if (wait_result == WAIT_CONTINUE)
+			if (worker->time_current > state->timeout_wait)
+				worker->state = &STATE_ERROR;
+
 		if (wait_result == WAIT_ERROR)
 		{
 			worker->error_cnt++;

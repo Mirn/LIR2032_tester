@@ -44,8 +44,9 @@ const KS_PIN * const PIN_STATUS[8] = {
 tLIR_Mode lir_ctrl[8];
 tCharge_Status lir_status[8];
 uint16_t lir_mV[8];
+uint16_t vref_mV;
 
-tCharge_Status charge_status_read(const KS_PIN * const pin, bool charge)
+static tCharge_Status charge_status_read(const KS_PIN * const pin, const bool charge)
 {
 	if (!charge)
 		return Charge_NC;
@@ -56,7 +57,7 @@ tCharge_Status charge_status_read(const KS_PIN * const pin, bool charge)
 		return Charge_Process;
 }
 
-uint32_t lir_mV_read(uint8_t num)
+static uint16_t lir_mV_read(const uint8_t num)
 {
 	const uint8_t chanels[8] = {10, 11, 12, 13, 1, 2, 3, 4};
 	adc_chanel(chanels[num]);
@@ -73,6 +74,23 @@ uint32_t lir_mV_read(uint8_t num)
 
 	return 	((uint64_t)(result * 3300ULL * 1ULL)) / (65520ULL / 2ULL);
 }
+
+
+static uint16_t vref_mV_read()
+{
+	adc_chanel(ADC_Channel_Vrefint);
+	adc_read();
+
+	uint32_t result = 0;
+	const uint32_t cnt = 0x100;
+
+	uint32_t pos = cnt;
+	while (pos--)
+		result += adc_read();
+
+	return 	(23825 * 3300) / (result / cnt); //(23825.454545454548 / (result / cnt)) * 3300.0f;//
+}
+
 
 void lir_ctrl_init()
 {
@@ -91,13 +109,14 @@ void lir_ctrl_init()
 
 void lir_info_update()
 {
+	vref_mV = vref_mV_read();
 	for (uint32_t pos = 0; pos < 8; pos++)
 	{
 		lir_mV[pos] = lir_mV_read(pos);
 		lir_status[pos] = charge_status_read(PIN_STATUS[pos], pin_read(PIN_CHARGE[pos]));
 	}
-
 }
+
 void lir_ctrl_update()
 {
 	for (uint32_t pos = 0; pos < 8; pos++)
@@ -133,4 +152,3 @@ void lir_printf_ctrl()
 	}
 	printf("%s", info);
 }
-
