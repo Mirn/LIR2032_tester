@@ -4,18 +4,21 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../src/lir_capacity.c \
 ../src/lir_ctrl.c \
 ../src/lir_leds.c \
 ../src/lir_worker.c \
 ../src/main.c 
 
 OBJS += \
+./src/lir_capacity.o \
 ./src/lir_ctrl.o \
 ./src/lir_leds.o \
 ./src/lir_worker.o \
 ./src/main.o 
 
 C_DEPS += \
+./src/lir_capacity.d \
 ./src/lir_ctrl.d \
 ./src/lir_leds.d \
 ./src/lir_worker.d \

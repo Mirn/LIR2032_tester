@@ -2,6 +2,7 @@
 #include "lir_leds.h"
 #include "lir_ctrl.h"
 #include "lir_worker.h"
+#include "lir_capacity.h"
 
 tLIR_worker lir_workers[8];
 
@@ -11,6 +12,8 @@ void main(void)
 	printf("SystemCoreClock = %i Hz\r\n", SystemCoreClock);
 	printf("Chip ID number: %x %x %x %x; %x\r\n", DEVICE_ID_1, DEVICE_ID_2, DEVICE_ID_3, DEVICE_ID_4, DEVICE_ID_HASH);
 	printf("\r\n");
+
+	capacity_calc_test();
 
 	leds_init();
 	lir_ctrl_init();
