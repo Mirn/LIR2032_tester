@@ -2,7 +2,6 @@
 #include "lir_leds.h"
 #include "lir_ctrl.h"
 #include "lir_worker.h"
-#include "lir_capacity.h"
 
 tLIR_worker lir_workers[8];
 
