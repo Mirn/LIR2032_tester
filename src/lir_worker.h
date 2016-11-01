@@ -17,18 +17,16 @@ typedef enum {
 	WAIT_ERROR = 0xFF
 } tworker_result;
 
-typedef tworker_result (*tworker_func)(const uint16_t mV, const uint16_t limit, const bool charge_done, const uint32_t time, tLIR_stats * const stats);
+typedef tworker_result (*tworker_func)(const uint16_t mV, const uint16_t limit, const bool charge_done);
 
 typedef struct LIR_worker_state {
 	tLIR_Mode mode;
 	uint16_t wait_min;
 	uint16_t wait_max;
-	uint16_t timeout_done;
-	uint16_t timeout_error;
 	uint16_t limit;
+	bool     cap_reg;
 	char     info;
 	tworker_func func_check;
-	tLIR_stats * const stats;
 	const struct LIR_worker_state *next;
 } tLIR_worker_state;
 
@@ -37,6 +35,7 @@ typedef struct {
 	uint16_t time_current;
 	uint16_t done_cnt;
 	uint16_t error_cnt;
+	tLIR_stats info_stats;
 	const tLIR_worker_state *state;
 } tLIR_worker;
 

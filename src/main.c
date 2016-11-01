@@ -12,7 +12,7 @@ void main(void)
 	printf("Chip ID number: %x %x %x %x; %x\r\n", DEVICE_ID_1, DEVICE_ID_2, DEVICE_ID_3, DEVICE_ID_4, DEVICE_ID_HASH);
 	printf("\r\n");
 
-	capacity_calc_test();
+	//capacity_calc_test();
 
 	leds_init();
 	lir_ctrl_init();
@@ -42,6 +42,10 @@ void main(void)
 		time = DWT_CYCCNT;
 
 		printf("%i\t", vref_mV);
+
+		for (uint32_t pos = 0; pos < 8; pos++)
+			printf("%i ", lir_workers[pos].time_current);
+
 		printf("\r\n");
 
 		for (uint32_t pos = 0; pos < 8; pos++)

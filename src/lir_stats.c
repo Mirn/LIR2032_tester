@@ -10,6 +10,42 @@
 
 #define LOAD_R_Ohm 250
 
+void stat_init(tLIR_stats *stat)
+{
+	if (stat == NULL)
+		return;
+
+	memset(stat, 0, sizeof(*stat));
+	capacity_init(&stat->capacity);
+}
+
+void stat_begin_add(tLIR_stats *stat, uint16_t mV)
+{
+	if (stat->intervals_count >= LENGTH(stat->intervals))
+		return;
+
+	stat->intervals[stat->intervals_count].begin = mV;
+}
+
+void stat_end_add(tLIR_stats *stat, uint16_t mV, uint16_t time_sec)
+{
+	if (stat->intervals_count >= LENGTH(stat->intervals))
+		return;
+
+	stat->intervals[stat->intervals_count].end = mV;
+	stat->intervals[stat->intervals_count].time_sec = time_sec;
+	stat->intervals_count++;
+}
+
+void stat_print(tLIR_stats *stat)
+{
+	printf("capacity\t%i\tuA_per_hour\r\n", stat->capacity.uA_per_hour);
+
+	for (uint32_t pos = 0; pos < stat->intervals_count; pos++)
+		printf("Interval #%i\t%i\t%i\t%i\r\n", pos, stat->intervals[pos].time_sec, stat->intervals[pos].begin, stat->intervals[pos].end);
+	printf("\r\n");
+}
+
 void capacity_init(tLIR_capacity *stat)
 {
 	stat->integral_uA = 0;
