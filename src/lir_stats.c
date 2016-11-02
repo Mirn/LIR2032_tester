@@ -19,12 +19,17 @@ void stat_init(tLIR_stats *stat)
 	capacity_init(&stat->capacity);
 }
 
-void stat_begin_add(tLIR_stats *stat, uint16_t mV)
+void stat_begin_add(tLIR_stats *stat, uint16_t mV, const char *name)
 {
 	if (stat->intervals_count >= LENGTH(stat->intervals))
 		return;
 
-	stat->intervals[stat->intervals_count].begin = mV;
+	tStat_interval *interval = &stat->intervals[stat->intervals_count];
+
+	if (name != NULL)
+		strncpy(interval->name, name, LENGTH(interval->name)-1);
+
+	interval->begin = mV;
 }
 
 void stat_end_add(tLIR_stats *stat, uint16_t mV, uint16_t time_sec)
@@ -33,16 +38,27 @@ void stat_end_add(tLIR_stats *stat, uint16_t mV, uint16_t time_sec)
 		return;
 
 	stat->intervals[stat->intervals_count].end = mV;
-	stat->intervals[stat->intervals_count].time_sec = time_sec;
+	stat->intervals[stat->intervals_count].time_mark = time_sec;
 	stat->intervals_count++;
 }
 
-void stat_print(tLIR_stats *stat)
+void stat_print(tLIR_stats *stat, const char *title)
 {
+	printf("Chanel: %s\r\n", title);
 	printf("capacity\t%i\tuA_per_hour\r\n", stat->capacity.uA_per_hour);
 
+	uint32_t old_time = 0;
 	for (uint32_t pos = 0; pos < stat->intervals_count; pos++)
-		printf("Interval #%i\t%i\t%i\t%i\r\n", pos, stat->intervals[pos].time_sec, stat->intervals[pos].begin, stat->intervals[pos].end);
+	{
+		printf("Interval #%i %s\t%i\t%i\t%i\r\n",
+				pos,
+				stat->intervals[pos].name,
+				stat->intervals[pos].time_mark - old_time,
+				stat->intervals[pos].begin,
+				stat->intervals[pos].end
+				);
+		old_time = stat->intervals[pos].time_mark;
+	}
 	printf("\r\n");
 }
 

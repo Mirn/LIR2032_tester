@@ -35,9 +35,10 @@ const tLIR_worker_state STATE_ERROR = {
 };
 
 const tLIR_worker_state STATE_CHARGE_SECOND = {
+		.name          = "Charge_second",
 		.mode          = LIR_charge,
 		.wait_max      = 2*60*60,
-		.wait_min      = 10*60,
+		.wait_min      = 20*60,
 		.func_check    = wait_charge,
 		.cap_reg       = false,
 		.info          = 'f',
@@ -45,10 +46,11 @@ const tLIR_worker_state STATE_CHARGE_SECOND = {
 };
 
 const tLIR_worker_state STATE_DISCHARGE_FIRST = {
+		.name          = "Load_250Ohm  ",
 		.mode          = LIR_load,
 		.limit         = 3300,
-		.wait_max      = 3*60*60,
-		.wait_min      = 5*60,
+		.wait_max      = 4*60*60,
+		.wait_min      = 1*60*60,
 		.func_check    = wait_discharge,
 		.cap_reg       = true,
 		.info          = 'L',
@@ -56,9 +58,10 @@ const tLIR_worker_state STATE_DISCHARGE_FIRST = {
 };
 
 const tLIR_worker_state STATE_CHARGE_FIRST = {
+		.name          = "Charge_first ",
 		.mode          = LIR_charge,
-		.wait_max      = 60*60,
-		.wait_min      = 0,
+		.wait_max      = 2*60*60,
+		.wait_min      = 30,
 		.func_check    = wait_charge,
 		.cap_reg       = false,
 		.info          = 'c',
@@ -67,8 +70,14 @@ const tLIR_worker_state STATE_CHARGE_FIRST = {
 
 const struct LIR_worker_state *STATE_FIRST = &STATE_CHARGE_FIRST;
 
+//static uint32_t cnt_c = 0;
+//static uint32_t cnt_l = 0;
+
 tworker_result wait_charge(uint16_t mV, UNUSED uint16_t limit, bool charge_done)
 {
+//	cnt_c++;
+//	if (cnt_c > (10*8 + 4)) return WAIT_DONE;
+
 	if (charge_done) return WAIT_DONE;
 
 	if (mV > LIMIT_mV_HI) return WAIT_ERROR;
@@ -79,6 +88,13 @@ tworker_result wait_charge(uint16_t mV, UNUSED uint16_t limit, bool charge_done)
 
 tworker_result wait_discharge(uint16_t mV, uint16_t limit, bool charge_done)
 {
+//	cnt_l++;
+//	if (cnt_l > (10*8 + 5))
+//	{
+//		cnt_c = 1;
+//		return WAIT_DONE;
+//	}
+
 	if (charge_done) return WAIT_ERROR;
 
 	if (mV > LIMIT_mV_HI) return WAIT_ERROR;
@@ -108,7 +124,8 @@ tLIR_Mode lir_worker_run(tLIR_worker * const worker, const uint16_t mV, const bo
 	if (worker->state == NULL)
 		return LIR_free;
 
-	if (worker->state->next == NULL)
+	worker->done = (worker->state->next == NULL);
+	if (worker->done)
 		return LIR_free;
 
 	const tLIR_worker_state *state = worker->state;
@@ -163,13 +180,13 @@ tLIR_Mode lir_worker_run(tLIR_worker * const worker, const uint16_t mV, const bo
 		else
 			worker->state = state->next;
 
-		if (worker->state->next == NULL)
-			stat_print(&worker->info_stats);
+		//if (worker->state->next == NULL)
+		//	stat_print(&worker->info_stats);
 	}
 	else
 	{
 		if (worker->time_current == 0)
-			stat_begin_add(&worker->info_stats, mV);
+			stat_begin_add(&worker->info_stats, mV, state->name);
 
 		if (state->cap_reg)
 			capacity_calc(&worker->info_stats.capacity, mV);

@@ -20,6 +20,7 @@ typedef enum {
 typedef tworker_result (*tworker_func)(const uint16_t mV, const uint16_t limit, const bool charge_done);
 
 typedef struct LIR_worker_state {
+	const char *name;
 	tLIR_Mode mode;
 	uint16_t wait_min;
 	uint16_t wait_max;
@@ -36,6 +37,7 @@ typedef struct {
 	uint16_t done_cnt;
 	uint16_t error_cnt;
 	tLIR_stats info_stats;
+	bool done;
 	const tLIR_worker_state *state;
 } tLIR_worker;
 
