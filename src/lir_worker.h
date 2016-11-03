@@ -8,6 +8,7 @@
 #ifndef LIR_WORKER_H_
 #define LIR_WORKER_H_
 
+#include "lir_leds.h"
 #include "lir_mode.h"
 #include "lir_stats.h"
 
@@ -17,14 +18,15 @@ typedef enum {
 	WAIT_ERROR = 0xFF
 } tworker_result;
 
-typedef tworker_result (*tworker_func)(const uint16_t mV, const uint16_t limit, const bool charge_done);
+typedef tworker_result (*tworker_func)(const uint16_t mV, const uint16_t param_limit, const bool charge_done, uint8_t *led_level);
 
 typedef struct LIR_worker_state {
 	const char *name;
 	tLIR_Mode mode;
+	tCOLOR  led_color;
 	uint16_t wait_min;
 	uint16_t wait_max;
-	uint16_t limit;
+	uint16_t param_limit;
 	bool     cap_reg;
 	char     info;
 	tworker_func func_check;
@@ -37,7 +39,10 @@ typedef struct {
 	uint16_t done_cnt;
 	uint16_t error_cnt;
 	tLIR_stats info_stats;
+	tCOLOR  led_color;
+	uint8_t led_level;
 	bool done;
+	bool error;
 	const tLIR_worker_state *state;
 } tLIR_worker;
 

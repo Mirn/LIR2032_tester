@@ -74,7 +74,12 @@ void main(void)
 				report_status();
 
 		for (uint32_t pos = 0; pos < 8; pos++)
+		{
 			lir_ctrl[pos] = lir_worker_run(&(lir_workers[pos]), lir_mV[pos], lir_status[pos] == Charge_Complete);
+			leds_level[pos] = lir_workers[pos].led_level;
+			leds_color[pos] = lir_workers[pos].led_color;
+		}
+		led_status = (done_cnt_new != 8);
 
 		done_cnt_old = done_cnt_new;
 		done_cnt_new = 0;
