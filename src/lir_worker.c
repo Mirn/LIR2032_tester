@@ -98,7 +98,7 @@ tworker_result wait_charge(uint16_t mV, UNUSED uint16_t param, bool charge_done,
 	{
 		int32_t level = mV - CHARGE_LEVEL_BEGIN_mV;
 		level = MAX(0, level);
-		*led_level = (level*7) / (CHARGE_LEVEL_STOP_mV - CHARGE_LEVEL_BEGIN_mV);
+		*led_level = 1 + ((level*6) / (CHARGE_LEVEL_STOP_mV - CHARGE_LEVEL_BEGIN_mV));
 	}
 
 	if (charge_done) return WAIT_DONE;
@@ -120,7 +120,7 @@ tworker_result wait_discharge(uint16_t mV, uint16_t limit, bool charge_done, uin
 
 	int32_t level = mV - CHARGE_LEVEL_BEGIN_mV;
 	level = MAX(0, level);
-	*led_level = (level*7) / (CHARGE_LEVEL_STOP_mV - CHARGE_LEVEL_BEGIN_mV);
+	*led_level = 1 + ((level*6) / (CHARGE_LEVEL_STOP_mV - CHARGE_LEVEL_BEGIN_mV));
 
 	if (charge_done) return WAIT_ERROR;
 
