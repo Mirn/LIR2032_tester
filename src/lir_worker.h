@@ -18,15 +18,15 @@ typedef enum {
 	WAIT_ERROR = 0xFF
 } tworker_result;
 
-typedef tworker_result (*tworker_func)(const uint16_t mV, const uint16_t param_limit, const bool charge_done, uint8_t *led_level);
+typedef tworker_result (*tworker_func)(const uint16_t mV, const uint32_t param_limit, const bool charge_done, uint8_t *led_level);
 
 typedef struct LIR_worker_state {
 	const char *name;
 	tLIR_Mode mode;
 	tCOLOR  led_color;
-	uint16_t wait_min;
-	uint16_t wait_max;
-	uint16_t param_limit;
+	uint32_t wait_min;
+	uint32_t wait_max;
+	uint32_t param_limit;
 	bool     cap_reg;
 	char     info;
 	tworker_func func_check;
@@ -34,8 +34,8 @@ typedef struct LIR_worker_state {
 } tLIR_worker_state;
 
 typedef struct {
-	uint16_t time_total;
-	uint16_t time_current;
+	uint32_t time_total;
+	uint32_t time_current;
 	uint16_t done_cnt;
 	uint16_t error_cnt;
 	tLIR_stats info_stats;

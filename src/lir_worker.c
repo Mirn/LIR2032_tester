@@ -17,7 +17,7 @@
 
 #define TIMEOUT_ERROR 5
 #define TIMEOUT_DONE  3
-#define TIMEOUT_TOTAL (8*60*60)
+#define TIMEOUT_TOTAL UINT32_MAX //!(8*60*60)
 
 #define CHARGE_LEVEL_BEGIN_mV 3300
 #define CHARGE_LEVEL_STOP_mV  4200
@@ -25,8 +25,8 @@
 #define PARAM_FIRST_CHARGE  false
 #define PARAM_SECOND_CHARGE true
 
-tworker_result wait_charge(const uint16_t mV, const uint16_t param, const bool charge_done, uint8_t *led_level);
-tworker_result wait_discharge(const uint16_t mV, const uint16_t limit, const bool charge_done, uint8_t *led_level);
+tworker_result wait_charge(const uint16_t mV, const uint32_t param, const bool charge_done, uint8_t *led_level);
+tworker_result wait_discharge(const uint16_t mV, const uint32_t limit, const bool charge_done, uint8_t *led_level);
 
 const tLIR_worker_state STATE_DONE = {
 		.led_color = LED_green,
@@ -68,6 +68,19 @@ const tLIR_worker_state STATE_DISCHARGE_FIRST = {
 		.next          = &STATE_CHARGE_SECOND
 };
 
+const tLIR_worker_state STATE_DISCHARGE_CR2032 = {
+		.name          = "Load_250Ohm  ",
+		.mode          = LIR_load,
+		.param_limit   = 1500,
+		.wait_max      = UINT32_MAX,
+		.wait_min      = 1*60*60,
+		.led_color     = LED_yellow,
+		.func_check    = wait_discharge,
+		.cap_reg       = true,
+		.info          = 'L',
+		.next          = &STATE_DONE
+};
+
 const tLIR_worker_state STATE_CHARGE_FIRST = {
 		.name          = "Charge_first ",
 		.mode          = LIR_charge,
@@ -81,12 +94,13 @@ const tLIR_worker_state STATE_CHARGE_FIRST = {
 		.next          = &STATE_DISCHARGE_FIRST
 };
 
-const struct LIR_worker_state *STATE_FIRST = &STATE_CHARGE_FIRST;
+//const struct LIR_worker_state *STATE_FIRST = &STATE_CHARGE_FIRST;
+const struct LIR_worker_state *STATE_FIRST = &STATE_DISCHARGE_CR2032;
 
 //static uint32_t cnt_c = 0;
 //static uint32_t cnt_l = 0;
 
-tworker_result wait_charge(uint16_t mV, UNUSED uint16_t param, bool charge_done, uint8_t *led_level)
+tworker_result wait_charge(uint16_t mV, UNUSED uint32_t param, bool charge_done, uint8_t *led_level)
 {
 //	cnt_c++;
 //	if (cnt_c > (10*8 + 4)) return WAIT_DONE;
@@ -109,7 +123,7 @@ tworker_result wait_charge(uint16_t mV, UNUSED uint16_t param, bool charge_done,
 	return WAIT_CONTINUE;
 }
 
-tworker_result wait_discharge(uint16_t mV, uint16_t limit, bool charge_done, uint8_t *led_level)
+tworker_result wait_discharge(uint16_t mV, uint32_t limit, bool charge_done, uint8_t *led_level)
 {
 //	cnt_l++;
 //	if (cnt_l > (10*8 + 5))
