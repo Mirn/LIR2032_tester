@@ -15,7 +15,7 @@ typedef struct {
 
 typedef struct {
 	char name[16];
-	uint16_t time_mark;
+	uint32_t time_mark;
 	uint16_t begin;
 	uint16_t end;
 } tStat_interval;
@@ -27,8 +27,8 @@ typedef struct {
 	uint8_t intervals_count;
 } tLIR_stats;
 
-void stat_init(tLIR_stats *stat);
-void stat_print(tLIR_stats *stat, const char *title);
+void stat_init(tLIR_stats *stat, const char *title);
+void stat_print(tLIR_stats *stat);
 void stat_begin_add(tLIR_stats *stat, uint16_t mV, const char *name);
 void stat_end_add(tLIR_stats *stat, uint16_t mV, uint16_t time_sec);
 

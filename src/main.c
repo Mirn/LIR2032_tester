@@ -3,6 +3,8 @@
 #include "lir_ctrl.h"
 #include "lir_worker.h"
 
+void log_flash_init();
+
 const char *lir_names[8] = {
 		"LIR_1",
 		"LIR_2",
@@ -38,7 +40,7 @@ void report_status()
 	printf("%i\t", vref_mV);
 
 	for (uint32_t pos = 0; pos < 8; pos++)
-		printf("%i ", lir_workers[pos].time_current);
+		printf("%i\t", lir_uV[pos]);
 
 	printf("\r\n");
 
@@ -53,13 +55,18 @@ void main(void)
 
 	//capacity_calc_test();
 
+	log_flash_init();
+	flash_log_enabled = true;
+	printf("\r\nREBOOT\r\n\r\n");
+	flash_log_enabled = false;
+
 	leds_init();
 	lir_ctrl_init();
 
-	leds_demo();
+	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1leds_demo();
 
 	for (uint32_t pos = 0; pos < 8; pos++)
-		lir_ctrl[pos] = lir_worker_init(&(lir_workers[pos]));
+		lir_ctrl[pos] = lir_worker_init(&(lir_workers[pos]), lir_names[pos]);
 
 	uint32_t done_cnt_old = 0;
 	uint32_t done_cnt_new = 0;
@@ -91,7 +98,7 @@ void main(void)
 		{
 			printf("\r\nALL DONE\r\n\r\n");
 			for (uint32_t pos = 0; pos < 8; pos++)
-				stat_print(&lir_workers[pos].info_stats, lir_names[pos]);
+				stat_print(&lir_workers[pos].info_stats);
 		}
 
 

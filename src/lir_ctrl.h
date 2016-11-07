@@ -21,6 +21,7 @@ typedef enum
 
 extern tLIR_Mode lir_ctrl[8];
 extern tCharge_Status lir_status[8];
+extern uint32_t lir_uV[8];
 extern uint16_t lir_mV[8];
 extern uint16_t vref_mV;
 

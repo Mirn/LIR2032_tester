@@ -82,4 +82,6 @@ void PrintChar(char c);
 #define DEVICE_ID_4       (*DEVICE_ID_4_PTR)
 #define DEVICE_ID_HASH (DEVICE_ID_1 ^ DEVICE_ID_2 ^ DEVICE_ID_3 ^ DEVICE_ID_4)
 
+extern bool flash_log_enabled;
+
 #endif //#ifndef __STM32KISS_H__

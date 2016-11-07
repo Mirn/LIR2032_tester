@@ -11,8 +11,10 @@
 #include "stm32f10x_usart.h"
 #include "stm32f10x_rcc.h"
 #include "stm32f10x_gpio.h"
+#include "stm32f10x_flash.h"
 
 #pragma GCC diagnostic ignored "-Wsign-compare"
+#pragma GCC diagnostic ignored "-Wformat"
 
 #undef	stdin
 #undef	stdout
@@ -21,6 +23,86 @@
 #define	stdout	(NULL)
 #define	stderr	(NULL)
 
+void PrintChar(char c);
+
+bool flash_log_enabled = false;
+
+extern uint8_t __data_end__;
+extern uint32_t __etext;
+
+uint8_t *log_start;
+uint8_t *log_current;
+uint8_t *log_end;
+
+uint32_t log_data;
+uint16_t log_data_cnt;
+
+#define FLASH_PAGE_SIZE      1024
+#define FLASH_SIZE          (*((uint16_t *)0x1FFFF7E0))
+
+void log_flash_init()
+{
+	printf("log_flash_init\r\n");
+
+	log_start = (uint8_t *)(((uint32_t)(&__data_end__) - SRAM_BASE) + (uint32_t)(&__etext));
+	log_end   = (uint8_t *)(FLASH_BASE + FLASH_SIZE*FLASH_PAGE_SIZE - 1);
+
+	uint8_t *ptr = log_end;
+	while ((uint32_t)ptr > (uint32_t)log_start)
+	{
+		if ((*ptr) != 0xFF)
+		{
+			ptr++;
+			break;
+		}
+		ptr--;
+	}
+	log_current = ptr;
+	log_data = 0;
+	log_data_cnt = 0;
+
+	printf("log_start  \t%08X\r\n", log_start);
+	printf("log_current\t%08X\r\n", log_current);
+	printf("log_end    \t%08X\r\n", log_end);
+	printf("Flash log size\t%i\tbytes\r\n", (uint32_t)(log_current - log_start));
+
+	ptr = log_start;
+	if ((uint32_t)log_current > (uint32_t)ptr)
+	{
+		printf("\r\n-------- start  log ----------\r\n");
+		while ((uint32_t)log_current > (uint32_t)ptr)
+			PrintChar(*(ptr++));
+		printf("\r\n-------- end of log ----------\r\n");
+	}
+	printf("\r\n");
+}
+
+void log_flash_add(uint8_t c)
+{
+	if ((uint32_t)log_current >= (uint32_t)log_end)
+		return;
+
+	log_data = (log_data >> 8) | (((uint16_t)c) << 24);
+	log_data_cnt++;
+	if (log_data_cnt < 4)
+		return;
+
+	log_data_cnt = 0;
+
+	FLASH_Unlock();
+	FLASH_ClearFlag(FLASH_FLAG_EOP | FLASH_FLAG_PGERR | FLASH_FLAG_WRPRTERR | FLASH_FLAG_BSY);
+
+	FLASH_Status status = FLASH_ProgramWord((uint32_t)log_current, log_data);
+	log_current += 4;
+	FLASH_Lock();
+
+	if (status != FLASH_COMPLETE)
+	{
+		PrintChar('F');
+		PrintChar('?');
+		return;
+	};
+}
 
 void printf_usart_init()
 {
@@ -577,7 +659,10 @@ signed int fputc(signed int c, FILE *pStream)
 {
     if ((pStream == stdout) || (pStream == stderr)) {
 
-    	PrintChar(c);
+    	if (flash_log_enabled)
+    		log_flash_add(c);
+    	else
+    		PrintChar(c);
 
         return c;
     }

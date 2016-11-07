@@ -94,8 +94,9 @@ const tLIR_worker_state STATE_CHARGE_FIRST = {
 		.next          = &STATE_DISCHARGE_FIRST
 };
 
+const struct LIR_worker_state *STATE_FIRST = &STATE_CHARGE_SECOND;
 //const struct LIR_worker_state *STATE_FIRST = &STATE_CHARGE_FIRST;
-const struct LIR_worker_state *STATE_FIRST = &STATE_DISCHARGE_CR2032;
+//const struct LIR_worker_state *STATE_FIRST = &STATE_DISCHARGE_CR2032;
 
 //static uint32_t cnt_c = 0;
 //static uint32_t cnt_l = 0;
@@ -144,7 +145,7 @@ tworker_result wait_discharge(uint16_t mV, uint32_t limit, bool charge_done, uin
 	return WAIT_CONTINUE;
 }
 
-tLIR_Mode lir_worker_init(tLIR_worker *worker)
+tLIR_Mode lir_worker_init(tLIR_worker *worker, const char *title)
 {
 	worker->done_cnt = 0;
 	worker->error_cnt = 0;
@@ -152,7 +153,7 @@ tLIR_Mode lir_worker_init(tLIR_worker *worker)
 	worker->time_current = 0;
 	worker->time_total = 0;
 
-	stat_init(&worker->info_stats);
+	stat_init(&worker->info_stats, title);
 
 	if (worker->state == NULL)
 		return LIR_free;
@@ -227,8 +228,12 @@ tLIR_Mode lir_worker_run(tLIR_worker * const worker, const uint16_t mV, const bo
 		else
 			worker->state = state->next;
 
-		//if (worker->state->next == NULL)
-		//	stat_print(&worker->info_stats);
+		if (worker->state->next == NULL)
+		{
+			flash_log_enabled = true;
+			stat_print(&worker->info_stats);
+			flash_log_enabled = false;
+		}
 	}
 	else
 	{

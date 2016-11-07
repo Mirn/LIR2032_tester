@@ -46,7 +46,7 @@ typedef struct {
 	const tLIR_worker_state *state;
 } tLIR_worker;
 
-tLIR_Mode lir_worker_init(tLIR_worker *worker);
+tLIR_Mode lir_worker_init(tLIR_worker *worker, const char *title);
 tLIR_Mode lir_worker_run(tLIR_worker *worker, uint16_t mV, bool charge_done);
 
 #endif /* LIR_WORKER_H_ */

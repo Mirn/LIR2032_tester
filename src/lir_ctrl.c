@@ -43,6 +43,7 @@ const KS_PIN * const PIN_STATUS[8] = {
 
 tLIR_Mode lir_ctrl[8];
 tCharge_Status lir_status[8];
+uint32_t lir_uV[8];
 uint16_t lir_mV[8];
 uint16_t vref_mV;
 
@@ -57,7 +58,7 @@ static tCharge_Status charge_status_read(const KS_PIN * const pin, const bool ch
 		return Charge_Process;
 }
 
-static uint16_t lir_mV_read(const uint8_t num)
+static uint32_t lir_uV_read(const uint8_t num)
 {
 	const uint8_t chanels[8] = {10, 11, 12, 13, 1, 2, 3, 4};
 	adc_chanel(chanels[num]);
@@ -70,9 +71,11 @@ static uint16_t lir_mV_read(const uint8_t num)
 	while (pos--)
 		result += adc_read();
 
+	result = result * 3300ULL;
+	result = result * 1000ULL;
+	result = result / (65520ULL / 2ULL);
 	result = result / cnt;
-
-	return 	((uint64_t)(result * 3300ULL * 1ULL)) / (65520ULL / 2ULL);
+	return result;
 }
 
 
@@ -112,7 +115,8 @@ void lir_info_update()
 	vref_mV = vref_mV_read();
 	for (uint32_t pos = 0; pos < 8; pos++)
 	{
-		lir_mV[pos] = lir_mV_read(pos);
+		lir_uV[pos] = lir_uV_read(pos);
+		lir_mV[pos] = lir_uV[pos] / 1000;
 		lir_status[pos] = charge_status_read(PIN_STATUS[pos], pin_read(PIN_CHARGE[pos]));
 	}
 }

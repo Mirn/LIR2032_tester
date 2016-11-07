@@ -10,13 +10,15 @@
 
 #define LOAD_R_Ohm 250
 
-void stat_init(tLIR_stats *stat)
+void stat_init(tLIR_stats *stat, const char *title)
 {
 	if (stat == NULL)
 		return;
 
-	memset(stat, 0, sizeof(*stat));
+	memset(stat, 0, sizeof(*stat)); //!!!!!!!!!!!!!!!!!
+
 	capacity_init(&stat->capacity);
+	strncpy(stat->title, title, LENGTH(stat->title)-1);
 }
 
 void stat_begin_add(tLIR_stats *stat, uint16_t mV, const char *name)
@@ -42,15 +44,15 @@ void stat_end_add(tLIR_stats *stat, uint16_t mV, uint16_t time_sec)
 	stat->intervals_count++;
 }
 
-void stat_print(tLIR_stats *stat, const char *title)
+void stat_print(tLIR_stats *stat)
 {
-	printf("Chanel: %s\r\n", title);
-	printf("capacity\t%i\tuA_per_hour\r\n", stat->capacity.uA_per_hour);
+	printf("Chanel: %s\r\n", stat->title);
+	printf("capacity\t%i\tuAh\r\n", stat->capacity.uA_per_hour);
 
 	uint32_t old_time = 0;
 	for (uint32_t pos = 0; pos < stat->intervals_count; pos++)
 	{
-		printf("Interval #%i %s\t%i\t%i\t%i\r\n",
+		printf("#%i %s\t%i\t%i\t%i\r\n",
 				pos,
 				stat->intervals[pos].name,
 				stat->intervals[pos].time_mark - old_time,
@@ -59,7 +61,7 @@ void stat_print(tLIR_stats *stat, const char *title)
 				);
 		old_time = stat->intervals[pos].time_mark;
 	}
-	printf("\r\n");
+	printf("  \r\n");
 }
 
 void capacity_init(tLIR_capacity *stat)
