@@ -26,7 +26,7 @@ extern uint16_t lir_mV[8];
 extern uint16_t vref_mV;
 
 extern uint32_t lir_uV_filted[8];
-extern int32_t lir_nV_delta[8];
+extern int32_t lir_uV_delta[8];
 
 void lir_ctrl_init();
 void lir_ctrl_update();

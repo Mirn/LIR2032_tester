@@ -70,7 +70,7 @@ static tfilt_rc rc_filts[8] = {
 tLIR_Mode lir_ctrl[8];
 tCharge_Status lir_status[8];
 uint32_t lir_uV_filted[8];
- int32_t lir_nV_delta[8];
+ int32_t lir_uV_delta[8];
 uint32_t lir_uV[8];
 uint16_t lir_mV[8];
 uint16_t vref_mV;
@@ -127,7 +127,7 @@ static void lir_delta_calc(uint32_t pos, uint32_t uV)
 	uV = filt_rc_calc(&(rc_filts[pos]), uV);
 	uV = filt_avrg_calc(&(avrg_filts[pos]), uV);
 
-	lir_nV_delta[pos] = uV - lir_uV_filted[pos];
+	lir_uV_delta[pos] = uV - lir_uV_filted[pos];
 	lir_uV_filted[pos] = uV;
 }
 
