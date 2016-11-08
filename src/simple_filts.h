@@ -5,8 +5,8 @@
 #include <stdint.h>
 
 typedef struct {
-	uint32_t sum;
-	uint32_t cnt;
+	uint32_t  sum;
+	uint32_t  cnt;
 	uint32_t *buf;
 	const uint32_t length;
 } tfilt_avrg;
@@ -40,7 +40,7 @@ static inline void filt_rc_init(tfilt_rc *filt, const uint32_t value)
 	filt->accum = value * filt->tau;
 }
 
-static inline uint32_t filt_rc_calc(tfilt_rc *filt, const uint32_t value, const uint32_t tau)
+static inline uint32_t filt_rc_calc(tfilt_rc *filt, const uint32_t value)
 {
 	filt->accum = (((uint64_t)filt->accum) * (filt->tau - 1)) / filt->tau;
 	filt->accum += value;

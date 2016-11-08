@@ -43,7 +43,7 @@ const tLIR_worker_state STATE_ERROR = {
 };
 
 const tLIR_worker_state STATE_CHARGE_SECOND = {
-		.name          = "Charge_second",
+		.name          = "Charge_B",
 		.mode          = LIR_charge,
 		.param_limit   = PARAM_SECOND_CHARGE,
 		.wait_max      = 2*60*60,
@@ -56,7 +56,7 @@ const tLIR_worker_state STATE_CHARGE_SECOND = {
 };
 
 const tLIR_worker_state STATE_DISCHARGE_FIRST = {
-		.name          = "Load_250Ohm  ",
+		.name          = "Load_250",
 		.mode          = LIR_load,
 		.param_limit   = CHARGE_LEVEL_BEGIN_mV,
 		.wait_max      = 4*60*60,
@@ -69,7 +69,7 @@ const tLIR_worker_state STATE_DISCHARGE_FIRST = {
 };
 
 const tLIR_worker_state STATE_DISCHARGE_CR2032 = {
-		.name          = "Load_250Ohm  ",
+		.name          = "Load_CR2032",
 		.mode          = LIR_load,
 		.param_limit   = 1500,
 		.wait_max      = UINT32_MAX,
@@ -82,7 +82,7 @@ const tLIR_worker_state STATE_DISCHARGE_CR2032 = {
 };
 
 const tLIR_worker_state STATE_CHARGE_FIRST = {
-		.name          = "Charge_first ",
+		.name          = "Charge_A",
 		.mode          = LIR_charge,
 		.param_limit   = PARAM_FIRST_CHARGE,
 		.wait_max      = 2*60*60,
@@ -94,8 +94,8 @@ const tLIR_worker_state STATE_CHARGE_FIRST = {
 		.next          = &STATE_DISCHARGE_FIRST
 };
 
-const struct LIR_worker_state *STATE_FIRST = &STATE_CHARGE_SECOND;
-//const struct LIR_worker_state *STATE_FIRST = &STATE_CHARGE_FIRST;
+//const struct LIR_worker_state *STATE_FIRST = &STATE_CHARGE_SECOND;
+const struct LIR_worker_state *STATE_FIRST = &STATE_CHARGE_FIRST;
 //const struct LIR_worker_state *STATE_FIRST = &STATE_DISCHARGE_CR2032;
 
 //static uint32_t cnt_c = 0;

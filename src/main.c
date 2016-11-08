@@ -40,7 +40,7 @@ void report_status()
 	printf("%i\t", vref_mV);
 
 	for (uint32_t pos = 0; pos < 8; pos++)
-		printf("%i\t", lir_uV[pos]);
+		printf("%i\t", lir_nV_delta[pos]);
 
 	printf("\r\n");
 
