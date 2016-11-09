@@ -11,9 +11,11 @@
 typedef enum
 {
 	LED_off = 0,
-	LED_green = 1,
-	LED_red = 2,
-	LED_yellow = 3
+	LED_green,
+	LED_red,
+	//LED_yellow,
+	LED_faded_green,
+	LED_faded_red,
 } tCOLOR;
 
 #define LED_STAT PIN_A0

@@ -52,7 +52,7 @@ static void led_tick()
 	}
 
 	uint32_t led_cnt = (((seconds * SECOND_FREQ) + second_cnt)) % (8*2*100);
-	uint8_t led_phase = led_cnt %   2;
+	uint8_t led_phase = led_cnt % 32;
 	uint8_t led_pos   = led_cnt / 200;
 
 	for (uint32_t pos = 0; pos < 8; pos++)
@@ -61,11 +61,15 @@ static void led_tick()
 		tCOLOR  color = leds_color[pos];
 		if (level == 0) continue;
 
-		bool g = (led_phase <= 1) && (color == LED_green);
-		bool r = (led_phase <= 1) && (color == LED_red);
+		bool f = (color == LED_faded_red) || (color == LED_faded_green);
+		bool g = (color == LED_green) || (color == LED_faded_green); //(led_phase <= 1) && ((color == LED_green) || (color == LED_faded_green));
+		bool r = (color == LED_red)   || (color == LED_faded_red);   //(led_phase <= 1) && ((color == LED_red)   || (color == LED_faded_red));
 
-		g = g || ((led_phase == 0) && (color == LED_yellow));
-		r = r || ((led_phase == 1) && (color == LED_yellow));
+		//g = g || (((led_phase & 1) == 0) && (color == LED_yellow));
+		//r = r || (((led_phase & 1) == 1) && (color == LED_yellow));
+
+		g = g && ((led_phase == 0) || (!f));
+		r = r && ((led_phase == 0) || (!f));
 
 		g = g && (led_pos < level);
 		r = r && (led_pos < level);
