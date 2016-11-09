@@ -133,6 +133,7 @@ static void lir_delta_calc(uint32_t pos, uint32_t uV)
 
 void lir_ctrl_init()
 {
+	printf("lir_ctrl_init(): ");
 	adc_on(ADC_Channel_1, ADC_SampleTime_13Cycles5);
 
 	for (uint32_t pos = 0; pos < 8; pos++)
@@ -154,6 +155,7 @@ void lir_ctrl_init()
 		for (uint32_t i = 0; i < (AVRG_LENGTH + (RC_TAU * 3)); i++)
 			lir_delta_calc(pos, lir_uV_read(pos));
 	}
+	printf("OK\r\n");
 }
 
 void lir_info_update()

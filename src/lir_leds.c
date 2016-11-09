@@ -93,6 +93,7 @@ void leds_init()
 
 void leds_demo()
 {
+	printf("leds_demo(): ");
 	led_status = 1;	delay_ms(100);
 	led_status = 0;	delay_ms(100);
 
@@ -117,6 +118,7 @@ void leds_demo()
 	seconds = 0;
 	second_cnt = 0;
 	seconds = 0;
+	printf("OK\r\n");
 }
 
 void wait_second()

@@ -61,13 +61,14 @@ void main(void)
 	flash_log_enabled = false;
 
 	leds_init();
-	lir_ctrl_init();
+	leds_demo();
 
-	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1leds_demo();
+	lir_ctrl_init();
 
 	for (uint32_t pos = 0; pos < 8; pos++)
 		lir_ctrl[pos] = lir_worker_init(&(lir_workers[pos]), lir_names[pos]);
 
+	seconds = 0;
 	uint32_t done_cnt_old = 0;
 	uint32_t done_cnt_new = 0;
 	while (true)
