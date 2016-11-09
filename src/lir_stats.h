@@ -8,6 +8,8 @@
 #ifndef LIR_STATS_H_
 #define LIR_STATS_H_
 
+extern const char src_ver_lir_stats[];
+
 typedef struct {
 	uint32_t integral_uA;
 	uint32_t uA_per_hour;

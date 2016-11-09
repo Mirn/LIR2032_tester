@@ -12,6 +12,8 @@
 #include "lir_mode.h"
 #include "lir_stats.h"
 
+extern const char src_ver_lir_worker[];
+
 typedef enum {
 	WAIT_CONTINUE = 0,
 	WAIT_DONE = 1,

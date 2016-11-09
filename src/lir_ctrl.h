@@ -10,6 +10,8 @@
 
 #include "lir_mode.h"
 
+extern const char src_ver_lir_ctrl[];
+
 typedef enum
 {
 	Charge_NC = 0,

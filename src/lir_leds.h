@@ -8,6 +8,8 @@
 #ifndef LIR_LEDS_H_
 #define LIR_LEDS_H_
 
+extern const char src_ver_lir_leds[];
+
 typedef enum
 {
 	LED_off = 0,

@@ -8,6 +8,8 @@
 #include "stm32kiss.h"
 #include "lir_stats.h"
 
+const char src_ver_lir_stats[] = __DATE__"\t"__TIME__"\t"__FILE__"\r";
+
 #define LOAD_R_Ohm 250
 
 void stat_init(tLIR_stats *stat, const char *title)

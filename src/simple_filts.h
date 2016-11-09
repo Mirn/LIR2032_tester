@@ -4,6 +4,11 @@
 #include <stdio.h>
 #include <stdint.h>
 
+static inline void printf_src_ver_simple_filts_h()
+{
+	printf(__DATE__"\t"__TIME__"\t"__FILE__"\r");
+}
+
 typedef struct {
 	uint32_t  sum;
 	uint32_t  cnt;

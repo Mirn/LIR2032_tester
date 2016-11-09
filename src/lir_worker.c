@@ -7,10 +7,7 @@
 #include "stm32kiss.h"
 #include "lir_worker.h"
 
-//#ifdef UNUSED
-//#undef UNUSED
-//#endif
-//#define UNUSED(x) (void)(x)
+const char src_ver_lir_worker[] = __DATE__"\t"__TIME__"\t"__FILE__"\r";
 
 #define LIMIT_mV_LO 3000
 #define LIMIT_mV_HI 4300

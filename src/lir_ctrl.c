@@ -9,6 +9,8 @@
 #include "lir_ctrl.h"
 #include "simple_filts.h"
 
+const char src_ver_lir_ctrl[] = __DATE__"\t"__TIME__"\t"__FILE__"\r";
+
 const KS_PIN * const PIN_CHARGE[8] = {
 		PIN_A5,
 		PIN_A6,

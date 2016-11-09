@@ -8,6 +8,8 @@
 #include "stm32kiss.h"
 #include "lir_leds.h"
 
+const char src_ver_lir_leds[] = __DATE__"\t"__TIME__"\t"__FILE__"\r";
+
 const KS_PIN * const PIN_LEDS_R[8] = {
 		PIN_B7,
 		PIN_B8,
@@ -68,8 +70,8 @@ static void led_tick()
 		//g = g || (((led_phase & 1) == 0) && (color == LED_yellow));
 		//r = r || (((led_phase & 1) == 1) && (color == LED_yellow));
 
-		g = g && ((led_phase == 0) || (!f));
-		r = r && ((led_phase == 0) || (!f));
+		g = g && ((led_phase <= 4) || (!f));
+		r = r && ((led_phase <= 4) || (!f));
 
 		g = g && (led_pos < level);
 		r = r && (led_pos < level);

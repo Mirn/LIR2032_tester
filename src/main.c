@@ -2,6 +2,9 @@
 #include "lir_leds.h"
 #include "lir_ctrl.h"
 #include "lir_worker.h"
+#include "simple_filts.h"
+
+const char src_ver_main[] = __DATE__"\t"__TIME__"\t"__FILE__"\r";
 
 void log_flash_init();
 
@@ -53,6 +56,15 @@ void main(void)
 	printf("Chip ID number: %x %x %x %x; %x\r\n", DEVICE_ID_1, DEVICE_ID_2, DEVICE_ID_3, DEVICE_ID_4, DEVICE_ID_HASH);
 	printf("\r\n");
 
+	printf("GCC version %i.%i.%i\r\n", __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__);
+	printf(src_ver_main);
+	printf(src_ver_lir_leds);
+	printf(src_ver_lir_ctrl);
+	printf(src_ver_lir_stats);
+	printf(src_ver_lir_worker);
+	printf(src_ver_lir_leds);
+	printf_src_ver_simple_filts_h();
+	printf("\r\n");
 	//capacity_calc_test();
 
 	log_flash_init();
