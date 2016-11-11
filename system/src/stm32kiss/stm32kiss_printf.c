@@ -23,6 +23,8 @@
 #define	stdout	(NULL)
 #define	stderr	(NULL)
 
+const char src_ver_printf[] = __DATE__"\t"__TIME__"\t"__FILE__"\r";
+
 void PrintChar(char c);
 
 bool flash_log_enabled = false;

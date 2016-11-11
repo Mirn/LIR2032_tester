@@ -6,8 +6,6 @@
 
 const char src_ver_main[] = __DATE__"\t"__TIME__"\t"__FILE__"\r";
 
-void log_flash_init();
-
 const char *lir_names[8] = {
 		"LIR_1",
 		"LIR_2",
@@ -58,6 +56,7 @@ void main(void)
 
 	printf("GCC version %i.%i.%i\r\n", __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__);
 	printf(src_ver_main);
+	printf(src_ver_printf);
 	printf(src_ver_lir_leds);
 	printf(src_ver_lir_ctrl);
 	printf(src_ver_lir_stats);
