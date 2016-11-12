@@ -68,7 +68,7 @@ const tLIR_worker_state STATE_DISCHARGE_FIRST = {
 const tLIR_worker_state STATE_DISCHARGE_CR2032 = {
 		.name          = "Load_CR2032",
 		.mode          = LIR_load,
-		.param_limit   = 1500,
+		.param_limit   = 2000,
 		.wait_max      = UINT32_MAX,
 		.wait_min      = 1*60*60,
 		.led_color     = LED_faded_red,
@@ -92,8 +92,8 @@ const tLIR_worker_state STATE_CHARGE_FIRST = {
 };
 
 //const struct LIR_worker_state *STATE_FIRST = &STATE_CHARGE_SECOND;
-const struct LIR_worker_state *STATE_FIRST = &STATE_CHARGE_FIRST;
-//const struct LIR_worker_state *STATE_FIRST = &STATE_DISCHARGE_CR2032;
+//const struct LIR_worker_state *STATE_FIRST = &STATE_CHARGE_FIRST;
+const struct LIR_worker_state *STATE_FIRST = &STATE_DISCHARGE_CR2032;
 
 //static uint32_t cnt_c = 0;
 //static uint32_t cnt_l = 0;

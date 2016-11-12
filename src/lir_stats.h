@@ -11,7 +11,7 @@
 extern const char src_ver_lir_stats[];
 
 typedef struct {
-	uint32_t integral_uA;
+	uint64_t integral_uA;
 	uint32_t uA_per_hour;
 } tLIR_capacity;
 
