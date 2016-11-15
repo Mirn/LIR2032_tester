@@ -11,6 +11,7 @@ const char src_ver_lir_worker[] = __DATE__"\t"__TIME__"\t"__FILE__"\r";
 
 #define LIMIT_mV_LO 3000
 #define LIMIT_mV_HI 4300
+#define LIMIT_CHARGED_NORM_mV 4000
 
 #define TIMEOUT_ERROR 5
 #define TIMEOUT_DONE  3
@@ -44,7 +45,7 @@ const tLIR_worker_state STATE_CHARGE_SECOND = {
 		.mode          = LIR_charge,
 		.param_limit   = PARAM_SECOND_CHARGE,
 		.wait_max      = 2*60*60,
-		.wait_min      = 20*60,
+		.wait_min      = 1*60*60,
 		.led_color     = LED_green,
 		.func_check    = wait_charge,
 		.cap_reg       = false,
@@ -56,8 +57,8 @@ const tLIR_worker_state STATE_DISCHARGE_FIRST = {
 		.name          = "Load_250",
 		.mode          = LIR_load,
 		.param_limit   = CHARGE_LEVEL_BEGIN_mV,
-		.wait_max      = 4*60*60,
-		.wait_min      = 1*60*60,
+		.wait_max      = 5*60*60,
+		.wait_min      = 1.5*60*60,
 		.led_color     = LED_faded_red,
 		.func_check    = wait_discharge,
 		.cap_reg       = true,
@@ -113,7 +114,13 @@ tworker_result wait_charge(uint16_t mV, UNUSED uint32_t param, bool charge_done,
 		*led_level = 1 + ((level*6) / (CHARGE_LEVEL_STOP_mV - CHARGE_LEVEL_BEGIN_mV));
 	}
 
-	if (charge_done) return WAIT_DONE;
+	if (charge_done)
+	{
+		if (mV >= LIMIT_CHARGED_NORM_mV)
+			return WAIT_DONE;
+		else
+			return WAIT_ERROR;
+	}
 
 	if (mV > LIMIT_mV_HI) return WAIT_ERROR;
 	if (mV < LIMIT_mV_LO) return WAIT_ERROR;

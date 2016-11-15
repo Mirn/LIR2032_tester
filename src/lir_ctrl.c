@@ -203,8 +203,8 @@ void lir_printf_ctrl()
 	char info[9] = "________";
 	for (uint32_t pos = 0; pos < 8; pos++)
 	{
-		if (lir_ctrl[pos] == LIR_load)   info[pos] = (lir_mV[pos] > 1000) ? 'L' : '_';
-		if (lir_ctrl[pos] == LIR_charge) info[pos] = (lir_mV[pos] > 1000) ? 'C' : '_';
+		if (lir_ctrl[pos] == LIR_load)   info[pos] = (lir_mV[pos] > 500) ? 'L' : '_';
+		if (lir_ctrl[pos] == LIR_charge) info[pos] = (lir_mV[pos] > 500) ? 'C' : '_';
 	}
 	printf("%s", info);
 }
