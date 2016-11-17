@@ -41,7 +41,7 @@ volatile tCOLOR  leds_color[8] = {0};
 volatile uint8_t leds_level[8] = {0};
 volatile uint8_t led_status = false;
 
-#define SECOND_FREQ 1000
+#define SECOND_FREQ (1024 / 32)
 
 static void led_tick()
 {
@@ -53,9 +53,9 @@ static void led_tick()
 		seconds++;
 	}
 
-	uint32_t led_cnt = (((seconds * SECOND_FREQ) + second_cnt)) % (8*2*100);
-	uint8_t led_phase = led_cnt % 64;
-	uint8_t led_pos   = led_cnt / 200;
+	uint32_t led_cnt = (((seconds * SECOND_FREQ) + second_cnt)) % (8*8);
+	uint8_t led_phase = led_cnt % 2;
+	uint8_t led_pos   = led_cnt / 8;
 
 	for (uint32_t pos = 0; pos < 8; pos++)
 	{
@@ -70,8 +70,8 @@ static void led_tick()
 		//g = g || (((led_phase & 1) == 0) && (color == LED_yellow));
 		//r = r || (((led_phase & 1) == 1) && (color == LED_yellow));
 
-		g = g && ((led_phase <= 32) || (!f));
-		r = r && ((led_phase <= 32) || (!f));
+		g = g && ((led_phase <= 0) || (!f));
+		r = r && ((led_phase <= 0) || (!f));
 
 		g = g && (led_pos < level);
 		r = r && (led_pos < level);
