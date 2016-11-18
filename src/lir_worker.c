@@ -93,8 +93,8 @@ const tLIR_worker_state STATE_CHARGE_FIRST = {
 };
 
 //const struct LIR_worker_state *STATE_FIRST = &STATE_CHARGE_SECOND;
-//const struct LIR_worker_state *STATE_FIRST = &STATE_CHARGE_FIRST;
-const struct LIR_worker_state *STATE_FIRST = &STATE_DISCHARGE_CR2032;
+const struct LIR_worker_state *STATE_FIRST = &STATE_CHARGE_FIRST;
+//const struct LIR_worker_state *STATE_FIRST = &STATE_DISCHARGE_CR2032;
 
 //static uint32_t cnt_c = 0;
 //static uint32_t cnt_l = 0;
