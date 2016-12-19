@@ -111,6 +111,10 @@ void main(void)
 			printf("\r\nALL DONE\r\n\r\n");
 			for (uint32_t pos = 0; pos < 8; pos++)
 				stat_print(&lir_workers[pos].info_stats);
+
+			printf("\r\nRESTART\r\n\r\n");
+			for (uint32_t pos = 0; pos < 8; pos++)
+				lir_ctrl[pos] = lir_worker_init(&(lir_workers[pos]), lir_names[pos]);
 		}
 
 
