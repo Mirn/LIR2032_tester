@@ -44,7 +44,7 @@ const tLIR_worker_state STATE_CHARGE_SECOND = {
 		.name          = "Charge_B",
 		.mode          = LIR_charge,
 		.param_limit   = PARAM_SECOND_CHARGE,
-		.wait_max      = 2*60*60,
+		.wait_max      = 3*60*60,
 		.wait_min      = 1*60*60,
 		.led_color     = LED_green,
 		.func_check    = wait_charge,
@@ -53,12 +53,12 @@ const tLIR_worker_state STATE_CHARGE_SECOND = {
 		.next          = &STATE_DONE
 };
 
-const tLIR_worker_state STATE_DISCHARGE_FIRST = {
+const tLIR_worker_state STATE_DISCHARGE = {
 		.name          = "Load_250",
 		.mode          = LIR_load,
 		.param_limit   = CHARGE_LEVEL_BEGIN_mV,
 		.wait_max      = 5*60*60,
-		.wait_min      = 1.5*60*60,
+		.wait_min      = 2*60*60,
 		.led_color     = LED_faded_red,
 		.func_check    = wait_discharge,
 		.cap_reg       = true,
@@ -83,13 +83,13 @@ const tLIR_worker_state STATE_CHARGE_FIRST = {
 		.name          = "Charge_A",
 		.mode          = LIR_charge,
 		.param_limit   = PARAM_FIRST_CHARGE,
-		.wait_max      = 2*60*60,
+		.wait_max      = 3*60*60,
 		.wait_min      = 0,
 		.led_color     = LED_faded_green,
 		.func_check    = wait_charge,
 		.cap_reg       = false,
 		.info          = 'c',
-		.next          = &STATE_DISCHARGE_FIRST
+		.next          = &STATE_DISCHARGE
 };
 
 //const struct LIR_worker_state *STATE_FIRST = &STATE_CHARGE_SECOND;
@@ -123,7 +123,9 @@ tworker_result wait_charge(uint16_t mV, UNUSED uint32_t param, bool charge_done,
 	}
 
 	if (mV > LIMIT_mV_HI) return WAIT_ERROR;
-	if (mV < LIMIT_mV_LO) return WAIT_ERROR;
+	if (mV < LIMIT_mV_LO)
+		if (param == PARAM_SECOND_CHARGE)
+			return WAIT_ERROR;
 
 	return WAIT_CONTINUE;
 }

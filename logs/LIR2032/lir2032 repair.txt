@@ -1,0 +1,99 @@
+ALL DONE
+
+Chanel: LIR_1
+capacity	38473	uAh
+#0 Charge_A	5361	3536	4222
+#1 Load_250	9134	4192	3297
+#2 Charge_B	5757	3419	4221
+  
+Chanel: LIR_2
+capacity	26564	uAh
+#0 Charge_A	5125	2429	4186
+#1 Load_250	6476	4138	3299
+#2 Charge_B	4259	3758	4185
+  
+Chanel: LIR_3
+capacity	36815	uAh
+#0 Charge_A	5449	3534	4183
+#1 Load_250	8775	4149	3297
+#2 Charge_B	5716	3426	4183
+  
+Chanel: LIR_4
+capacity	35833	uAh
+#0 Charge_A	5881	3510	4196
+#1 Load_250	8668	4147	3298
+#2 Charge_B	5853	3637	4194
+  
+Chanel: LIR_5
+capacity	36382	uAh
+#0 Charge_A	3048	3986	4185
+#1 Load_250	8700	4155	3297
+#2 Charge_B	4778	3629	4180
+  
+Chanel: LIR_6
+capacity	38704	uAh
+#0 Charge_A	5470	3528	4195
+#1 Load_250	9220	4163	3297
+#2 Charge_B	6100	3418	4192
+  
+Chanel: LIR_7
+capacity	34685	uAh
+#0 Charge_A	4858	3510	4206
+#1 Load_250	8239	4179	3297
+#2 Charge_B	4922	3416	4204
+  
+Chanel: LIR_8
+capacity	39570	uAh
+#0 Charge_A	5266	3508	4205
+#1 Load_250	9411	4177	3297
+#2 Charge_B	5748	3410	4201
+
+ALL DONE
+
+Chanel: LIR_1
+capacity	38261	uAh
+#0 Charge_A	683	4173	4219
+#1 Load_250	9097	4183	3297
+#2 Charge_B	5778	3445	4221
+  
+Chanel: LIR_2
+capacity	26650	uAh
+#0 Charge_A	710	4120	4182
+#1 Load_250	6516	4123	3299
+#2 Charge_B	4235	3750	4184
+  
+Chanel: LIR_3
+capacity	36799	uAh
+#0 Charge_A	716	4137	4182
+#1 Load_250	8778	4143	3297
+#2 Charge_B	5635	3450	4181
+  
+Chanel: LIR_4
+capacity	35927	uAh
+#0 Charge_A	967	4124	4193
+#1 Load_250	8710	4137	3299
+#2 Charge_B	5644	3694	4193
+  
+Chanel: LIR_5
+capacity	35776	uAh
+#0 Charge_A	671	4130	4178
+#1 Load_250	8572	4139	3297
+#2 Charge_B	5030	3587	4177
+  
+Chanel: LIR_6
+capacity	38378	uAh
+#0 Charge_A	670	4145	4191
+#1 Load_250	9153	4155	3297
+#2 Charge_B	5915	3446	4192
+  
+Chanel: LIR_7
+capacity	34268	uAh
+#0 Charge_A	670	4156	4203
+#1 Load_250	8151	4167	3297
+#2 Charge_B	5020	3434	4203
+  
+Chanel: LIR_8
+capacity	39328	uAh
+#0 Charge_A	630	4150	4201
+#1 Load_250	9366	4167	3297
+#2 Charge_B	5667	3434	4201
