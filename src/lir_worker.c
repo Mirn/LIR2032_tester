@@ -40,6 +40,7 @@ const tLIR_worker_state STATE_ERROR = {
 		.next = NULL
 };
 
+
 const tLIR_worker_state STATE_CHARGE_SECOND = {
 		.name          = "Charge_B",
 		.mode          = LIR_charge,
@@ -58,7 +59,7 @@ const tLIR_worker_state STATE_DISCHARGE = {
 		.mode          = LIR_load,
 		.param_limit   = CHARGE_LEVEL_BEGIN_mV,
 		.wait_max      = 5*60*60,
-		.wait_min      = 2*60*60,
+		.wait_min      = 1.5*60*60,
 		.led_color     = LED_faded_red,
 		.func_check    = wait_discharge,
 		.cap_reg       = true,
